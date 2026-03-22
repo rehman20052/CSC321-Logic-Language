@@ -16,4 +16,9 @@ public class Token {
     public String getLexeme() {
         return lexeme;
     }
+
+    @Override
+    public String toString() {
+        return type + "(" + lexeme + ")";
+    }
 }
