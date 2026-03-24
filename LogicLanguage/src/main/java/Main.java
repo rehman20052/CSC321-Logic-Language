@@ -6,17 +6,10 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        String source = "x = 5; print x;";
 
-        List<Token> tokens = List.of(
-                new Token(TokenType.IDENTIFIER, "x"),
-                new Token(TokenType.EQUAL, "="),
-                new Token(TokenType.INTEGER, "5"),
-                new Token(TokenType.SEMICOLON, ";"),
-                new Token(TokenType.PRINT, "print"),
-                new Token(TokenType.IDENTIFIER, "x"),
-                new Token(TokenType.SEMICOLON, ";"),
-                new Token(TokenType.EOF, "")
-        );
+        Lexer lexer = new Lexer(source);
+        List<Token> tokens = lexer.tokenize();
 
         Parser parser = new Parser(tokens);
         Program program = parser.parseProgram();
