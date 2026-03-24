@@ -67,24 +67,51 @@ factor      → INTEGER | IDENTIFIER | '(' expression ')'
 ## Architecture
 
 ```
-src/
-├── Main.java                  — CLI entry point (lex / parse commands)
-├── lexer/
-│   ├── TokenType.java         — Enum of all token types
-│   ├── Token.java             — Token class (type + lexeme)
-│   └── Lexer.java             — Converts source code into token stream
-├── ast/
-│   ├── Node.java              — Base class for all AST nodes
-│   ├── Statement.java         — Abstract statement node
-│   ├── Expression.java        — Abstract expression node
-│   ├── Program.java           — Root node (list of statements)
-│   ├── AssignmentStatement.java
-│   ├── PrintStatement.java
-│   ├── BinaryExpression.java
-│   ├── Identifier.java
-│   └── IntegerLiteral.java
-└── parser/
-    └── Parser.java            — Builds AST from token stream
+LogicLanguage/
+│
+├── README.md
+│
+├── src/
+│   ├── Main.java                  — CLI entry point (lex / parse commands)
+│   │
+│   ├── lexer/
+│   │   ├── TokenType.java         — Enum of all token types
+│   │   ├── Token.java             — Token class (type + lexeme)
+│   │   └── Lexer.java             — Converts source code into token stream
+│   │
+│   ├── ast/
+│   │   ├── Node.java              — Base class for all AST nodes
+│   │   ├── Statement.java         — Abstract statement node
+│   │   ├── Expression.java        — Abstract expression node
+│   │   ├── Program.java           — Root node (list of statements)
+│   │   ├── AssignmentStatement.java
+│   │   ├── PrintStatement.java
+│   │   ├── BinaryExpression.java
+│   │   ├── Identifier.java
+│   │   └── IntegerLiteral.java
+│   │
+│   └── parser/
+│       └── Parser.java            — Builds AST from token stream
+│
+└── tests/
+    ├── valid/                     — Valid Logic programs (should parse successfully)
+    │   ├── test1.ml
+    │   ├── test2.ml
+    │   ├── test3.ml
+    │   ├── test4.ml
+    │   ├── test5.ml
+    │   ├── test6.ml
+    │   ├── test7.ml
+    │   ├── test8.ml
+    │   ├── test9.ml
+    │   └── test10.ml
+    │
+    └── invalid/                   — Invalid Logic programs (should produce parse errors)
+        ├── invalid1.ml
+        ├── invalid2.ml
+        ├── invalid3.ml
+        ├── invalid4.ml
+        └── invalid5.ml
 ```
 
 **Pipeline:**
