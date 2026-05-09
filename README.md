@@ -1,239 +1,199 @@
-LogicLanguage — CSC321 Phase 1
+# LogicLanguage — CSC321 Final Project
 
-A minimal language implementation featuring a lexer and parser built in Java.
-This project covers Phase 1: tokenization and AST construction.
+LogicLanguage is a custom interpreted programming language built in Java for CSC321.
+The project demonstrates the complete programming language pipeline including:
 
+* Lexical Analysis
+* Parsing
+* Abstract Syntax Tree (AST) construction
+* Runtime interpretation
+* Error handling
+* GUI integration
 
-How to Run:
-### Compile
+The language evolved from the original Phase 1 lexer/parser implementation into a fully working language environment with execution support and an IDE-style GUI.
+
+---
+
+# How to Run
+
+Open terminal inside the project folder and run:
+
 ```bash
-javac -d out src/lexer/*.java src/ast/*.java src/parser/*.java src/Main.java
-```
-
-### Lex a file
-```bash
-java -cp out Main lex <file>
-```
-Example:
-```bash
-java -cp out Main lex tests/valid/test1.ml
-```
-Output:
-```
-IDENTIFIER(x)
-EQUAL(=)
-INTEGER(5)
-SEMICOLON(;)
-PRINT(print)
-IDENTIFIER(x)
-SEMICOLON(;)
-EOF
+java -cp out Main gui
 ```
 
-### Parse a file
-```bash
-java -cp out Main parse <file>
-```
-Example:
-```bash
-java -cp out Main parse tests/valid/test1.ml
-```
-Output:
-```
-Program
-  AssignmentStatement
-    Identifier(x)
-    IntegerLiteral(5)
-  PrintStatement
-    Identifier(x)
+This launches the LogicLanguage GUI.
+
+---
+
+# Features
+
+## Compiler / Interpreter Pipeline
+
+```text
+Source Code
+   ↓
+Lexer
+   ↓
+Tokens
+   ↓
+Parser
+   ↓
+AST
+   ↓
+Interpreter
+   ↓
+Executed Output
 ```
 
 ---
 
-## Language Grammar (EBNF)
+# Supported Language Features
 
-```
+* Integer values
+* String values
+* Boolean values
+* Variables and assignments
+* Arithmetic expressions
+* Print statements
+* If / Else conditions
+* While loops
+* Functions
+* Runtime interpretation
+* Error handling
+* GUI-based IDE environment
+
+---
+
+# GUI Features
+
+* Dark IDE-style interface
+* Source code editor
+* Output console
+* Run functionality
+* Token visualization
+* AST visualization
+* Runtime execution
+
+---
+
+# Language Grammar (Core)
+
+```ebnf
 program     → statement* EOF
-statement   → assignment | print_stmt
+statement   → assignment
+            | print_stmt
+            | if_stmt
+            | while_stmt
+            | function_stmt
+
 assignment  → IDENTIFIER '=' expression ';'
 print_stmt  → 'print' expression ';'
+
 expression  → term (('+' | '-') term)*
 term        → factor (('*' | '/') factor)*
-factor      → INTEGER | IDENTIFIER | '(' expression ')'
+
+factor      → INTEGER
+            | STRING
+            | BOOLEAN
+            | IDENTIFIER
+            | '(' expression ')'
 ```
 
 ---
 
-## Architecture
+# Architecture
 
-```
+```text
 LogicLanguage/
 │
 ├── README.md
 │
 ├── src/
-│   ├── Main.java                  — CLI entry point (lex / parse commands)
+│   ├── Main.java
 │   │
 │   ├── lexer/
-│   │   ├── TokenType.java         — Enum of all token types
-│   │   ├── Token.java             — Token class (type + lexeme)
-│   │   └── Lexer.java             — Converts source code into token stream
+│   │   ├── TokenType.java
+│   │   ├── Token.java
+│   │   └── Lexer.java
+│   │
+│   ├── parser/
+│   │   └── Parser.java
 │   │
 │   ├── ast/
-│   │   ├── Node.java              — Base class for all AST nodes
-│   │   ├── Statement.java         — Abstract statement node
-│   │   ├── Expression.java        — Abstract expression node
-│   │   ├── Program.java           — Root node (list of statements)
+│   │   ├── Node.java
+│   │   ├── Program.java
+│   │   ├── Statement.java
+│   │   ├── Expression.java
 │   │   ├── AssignmentStatement.java
 │   │   ├── PrintStatement.java
 │   │   ├── BinaryExpression.java
 │   │   ├── Identifier.java
 │   │   └── IntegerLiteral.java
 │   │
-│   └── parser/
-│       └── Parser.java            — Builds AST from token stream
+│   └── runtime/
+│       ├── Interpreter.java
+│       └── Environment.java
 │
-└── tests/
-    ├── valid/                     — Valid Logic programs (should parse successfully)
-    │   ├── test1.ml
-    │   ├── test2.ml
-    │   ├── test3.ml
-    │   ├── test4.ml
-    │   ├── test5.ml
-    │   ├── test6.ml
-    │   ├── test7.ml
-    │   ├── test8.ml
-    │   ├── test9.ml
-    │   └── test10.ml
-    │
-    └── invalid/                   — Invalid Logic programs (should produce parse errors)
-        ├── invalid1.ml
-        ├── invalid2.ml
-        ├── invalid3.ml
-        ├── invalid4.ml
-        └── invalid5.ml
-```
-
-**Pipeline:**
-```
-Source Code → Lexer → Tokens → Parser → AST → Printed Output
+├── tests/
+│
+└── out/
 ```
 
 ---
 
-## Supported Language Features (Phase 1)
+# Example Program
 
-- Integer literals (e.g. `5`, `42`, `1000`)
-- Identifiers (e.g. `x`, `total1`, `value`)
-- Arithmetic expressions: `+`, `-`, `*`, `/`
-- Correct operator precedence (`*` and `/` before `+` and `-`)
-- Parentheses to override precedence
-- Assignment statements: `x = 5;`
-- Print statements: `print x;`
-- A program is a sequence of statements
-
-**Not included in Phase 1:** evaluation, variable storage, type checking, functions, loops, error recovery.
-
----
-
-## Test Cases
-
-### Valid Programs
-
-**test1.ml** — Basic assignment and print
-```
+```text
 x = 5;
-print x;
-```
+y = x + 7;
 
-**test2.ml** — Arithmetic with precedence
-```
-x = 3 + 4 * 5;
-print x;
-```
-
-**test3.ml** — Parentheses override precedence
-```
-x = (3 + 4) * 5;
-print x;
-```
-
-**test4.ml** — Multiple assignments
-```
-x = 1;
-y = x + 2;
 print y;
-```
 
-**test5.ml** — Print an expression directly
-```
-print 3 + 4;
-```
+if (y > 10) {
+    print "greater than 10";
+}
 
-**test6.ml** — Division
-```
-x = 10 / 2;
-print x;
-```
+counter = 0;
 
-**test7.ml** — Subtraction
-```
-x = 10 - 3;
-print x;
-```
-
-**test8.ml** — Nested parentheses
-```
-x = (2 + (3 * 4));
-print x;
-```
-
-**test9.ml** — Multiple prints
-```
-x = 5;
-y = 10;
-print x;
-print y;
-```
-
-**test10.ml** — Complex expression
-```
-x = 2 + 3 * 4 - 1;
-print x;
-```
-
-### Invalid Programs
-
-**invalid1.ml** — Missing semicolon
-```
-x = 5
-print x;
-```
-
-**invalid2.ml** — Missing value in assignment
-```
-x = ;
-```
-
-**invalid3.ml** — Unknown character
-```
-x = 5 @ 2;
-```
-
-**invalid4.ml** — Missing closing parenthesis
-```
-x = (3 + 4;
-print x;
-```
-
-**invalid5.ml** — Incomplete expression
-```
-print ;
+while (counter < 3) {
+    print counter;
+    counter = counter + 1;
+}
 ```
 
 ---
 
-## Team
-- Person 1 — Lexer (`TokenType`, `Token`, `Lexer`)
-- Person 2 — Parser (`Parser`)
-- Person 3 — AST classes, `Main.java`, tests, README
+# Example Output
+
+```text
+12
+greater than 10
+0
+1
+2
+```
+
+---
+
+# Team Responsibilities
+
+* Person 1 — Lexer Development
+* Person 2 — Parser Development
+* Person 3 — AST / GUI / Integration
+
+---
+
+# Technologies Used
+
+* Java
+* Java Swing
+* Recursive Descent Parsing
+* AST-based Interpretation
+* Object-Oriented Design
+
+---
+
+# Notes
+
+This project was developed for CSC321 to demonstrate the internal implementation of a programming language from tokenization to runtime execution.
