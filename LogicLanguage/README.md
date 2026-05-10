@@ -55,23 +55,6 @@ From the project folder:
 javac -d out src/Main.java
 ```
 
-## How to Run
-
-### Lex tokens
-```bash
-java -cp out Main lex tests/demo.logic
-```
-
-### Show AST
-```bash
-java -cp out Main parse tests/demo.logic
-```
-
-### Execute program
-```bash
-java -cp out Main run tests/demo.logic
-```
-
 ### Launch GUI IDE
 ```bash
 java -cp out Main gui
