@@ -1,0 +1,31 @@
+// Original features still work
+x = 5;
+y = x + 3;
+print y;
+
+// if / else
+if (x < 10) {
+    print x;
+} else {
+    print y;
+}
+
+// while loop
+i = 0;
+while (i < 3) {
+    print i;
+    i = i + 1;
+}
+
+// for loop
+for (j = 0; j < 3; j = j + 1) {
+    print j;
+}
+
+// function declaration and call
+func add(a, b) {
+    return a + b;
+}
+
+result = add(x, y);
+print result;
